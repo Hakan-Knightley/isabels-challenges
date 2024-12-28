@@ -1,0 +1,7 @@
+day_id,month,activity_type,total_time
+1,January,TypeA,10
+2,February,TypeA,9
+3,March,TypeB,12
+4,March,TypeC,8
+5,November,TypeB,5
+6,March,TypeA,4
