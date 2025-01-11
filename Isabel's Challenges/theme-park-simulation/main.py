@@ -1,17 +1,18 @@
 import random
-import heapq
+from collections import deque
 
 class PriorityQueue:
     def __init__(self):
-        self.queue = []
+        self.queue = deque()
 
     def push(self, event):
-        heapq.heappush(self.queue, event)
+        self.queue.append(event)
+        self.queue = deque(sorted(self.queue, key=lambda x: x[0]))
 
     def popleft(self):
         if not self.queue:
             raise IndexError("pop from an empty priority queue")
-        return heapq.heappop(self.queue)
+        return self.queue.popleft()
 
 class Customer:
     def __init__(self, customer_id, arrival_time):
@@ -60,18 +61,16 @@ def main():
         Customer(3, 2)
     ]
     
-    # Initialize the priority queue for managing ride events
     event_queue = PriorityQueue()
     
-    # Simulate customer arrivals and ride experiences
+    #simulate customer arrivals and ride experiences
     for customer in customers:
         for ride in rides:
-            # Simulate the customer going on a ride
+            #simulate customer going on ride
             ride_time = ride.generate_ride_time()
-            customer.record_ride(ride.ride_id, ride_time, 0)  # Assuming wait time is 0 for simplicity
+            customer.record_ride(ride.ride_id, ride_time, 0)  #(assumed wait time is 0 for simplicity)
             event_queue.push((customer.arrival_time + ride_time, ride.ride_id))
-    
-    # Process events in the queue
+            
     while event_queue.queue:
         event_time, ride_id = event_queue.popleft()
         print(f"At time {event_time}, ride {ride_id} is being processed.")
